@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "useWorkspaces": true,
+  "version": "independent",
+  "verifyAccess": false,
+  "verifyRegistry": false,
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "verifyAccess": false,
+      "verifyRegistry": false,
+      "createRelease": "github",
+      "exact": true,
+      "allowBranch": "main",
+      "ignoreChanges": ["**/*.md"],
+      "message": "chore(release): publish"
+    }
+  },
+  "packages": [
+    "packages/*",
+    "apps/*"
+  ]
+}
