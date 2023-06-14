@@ -1,5 +1,10 @@
 import '../styles/global.css'
 
+export const metadata = {
+  title: 'OMDB series',
+  description: 'OMDB series',
+}
+
 export default function RootLayout({
   children,
 }: {
