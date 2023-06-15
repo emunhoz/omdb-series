@@ -43,10 +43,23 @@ body {
   color: var(--text);
 }
 
+html {
+  height: 100vh;
+  font-size: calc(15px + 0.390625vw);
+}
+
+body {
+  min-height: 100%;
+}
+
 :root {
   --background: #fff;
   --text: #242424;
-  --background-secondary: #fff;
+  --background-secondary: #242424;
+  --font-size: 16px;
+  --font-size-medium: 18px;
+  --font-size-large: 24px;
+  --font-size-extra-large: 74px;
   
   line-height: 1.5;
   font-weight: 400;
@@ -65,6 +78,14 @@ body {
   :root {
     --background: #242424;
     --text: #fff;
-    --background-secondary: #3a3a3a;
+    --background-secondary: #fff;
   }
+}
+
+main {
+  min-height: 100vh;
+}
+
+ul {
+  list-style: none;
 }
