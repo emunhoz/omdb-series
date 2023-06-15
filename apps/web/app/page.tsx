@@ -85,7 +85,7 @@ export default function Page() {
                       height={134}
                     />
                   </a>
-                  <h4 className={styles.episodeTitle}>Insecure as Fuck</h4>
+                  <h2 className={styles.episodeTitle}>Insecure as Fuck</h2>
                   <p className={styles.episodeDescription}>
                     In the wake of her 29th birthday, Issa reflects on her life
                     and relationship choices.
@@ -154,9 +154,9 @@ export default function Page() {
           </div>
         </div>
         <div className={styles.episodeDetailsContent}>
-          <h5 className={styles.episodeDetailsContentTitle}>
+          <h3 className={styles.episodeDetailsContentTitle}>
             Insecure as Fuck
-          </h5>
+          </h3>
           <p className={styles.episodeDetailsContentDescription}>
             In the wake of her 29th birthday, Issa reflects on her life and
             relationship choices.
