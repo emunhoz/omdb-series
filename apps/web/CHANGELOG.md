@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/emunhoz/omdb-series/compare/web@0.2.2...web@0.3.0) (2023-06-15)
+
+
+### Features
+
+* **apps/web:** adding `mobile first` layout hard coded ([05f7198](https://github.com/emunhoz/omdb-series/commit/05f71986ff2b106d61654161bdf00c457ed509ce))
+
+
+
+
+
 ## [0.2.2](https://github.com/emunhoz/omdb-series/compare/web@0.2.1...web@0.2.2) (2023-06-14)
 
 **Note:** Version bump only for package web
