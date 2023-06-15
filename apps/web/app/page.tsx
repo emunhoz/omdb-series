@@ -154,9 +154,9 @@ export default function Page() {
           </div>
         </div>
         <div className={styles.episodeDetailsContent}>
-          <h6 className={styles.episodeDetailsContentTitle}>
+          <h5 className={styles.episodeDetailsContentTitle}>
             Insecure as Fuck
-          </h6>
+          </h5>
           <p className={styles.episodeDetailsContentDescription}>
             In the wake of her 29th birthday, Issa reflects on her life and
             relationship choices.
