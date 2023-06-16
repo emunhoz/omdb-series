@@ -3,25 +3,35 @@
 import Image from 'next/image'
 import * as styles from './page.module.css'
 import { useEffect, useState } from 'react'
+import { EpisodeCard } from 'ui'
 
 export default function Page() {
   const [episodeCarousel, setEpisodeCarousel] = useState(0)
 
   const carouselItems = [
     {
+      title: 'Insecure as Fuck',
       imgUrl: '/images/episodes/insecure.png',
+      description:
+        'In the wake of her 29th birthday, Issa reflects on herlife and relationship choices.',
     },
     {
+      title: 'Messy as Fuck',
       imgUrl: '/images/episodes/insecure.png',
+      description:
+        'Issa struggles with her feelings about Lawrence, work, and her life.',
     },
     {
+      title: 'Racist as Fuck',
       imgUrl: '/images/episodes/insecure.png',
+      description:
+        'Issa and Lawrence try to move past their issues at home; Issa deals with doubts from lorem ipsum dolor sit',
     },
     {
+      title: 'Thirsty as Fuck',
       imgUrl: '/images/episodes/insecure.png',
-    },
-    {
-      imgUrl: '/images/episodes/insecure.png',
+      description:
+        'Issa turns to Daniel for help during Career Day; Molly finds herself in a tough lorem ipsum dolor sit',
     },
   ]
 
@@ -58,38 +68,24 @@ export default function Page() {
             <ul className={styles.carouselWrapper}>
               {carouselItems.map((item, index) => (
                 <li
-                  className={styles.episodeListItem}
+                  className={
+                    episodeCarousel === index
+                      ? styles.episodeListItemActive
+                      : styles.episodeListItem
+                  }
                   key={index}
                   arial-hidden={episodeCarousel === index ? 'true' : 'false'}
                   id={`episode-${index}`}
                 >
-                  <a
-                    href={`#episode-${index}`}
-                    className={styles.episodeWrapper}
-                  >
-                    <div
-                      className={styles.episodeNumber}
-                      onFocus={() => console.log(index)}
-                    >
-                      {index}
-                    </div>
-                    <Image
-                      className={
-                        episodeCarousel === index
-                          ? styles.episodeImageActive
-                          : styles.episodeImage
-                      }
-                      src={item.imgUrl}
-                      alt={`Episode ${index}`}
-                      width={201}
-                      height={134}
+                  <a href={`#episode-${index}`} className={styles.episodeLink}>
+                    <EpisodeCard
+                      episodeTitle={item.title}
+                      episodeNumber={index}
+                      isActive={episodeCarousel === index}
+                      imgUrl={item.imgUrl}
+                      description={item.description}
                     />
                   </a>
-                  <h2 className={styles.episodeTitle}>Insecure as Fuck</h2>
-                  <p className={styles.episodeDescription}>
-                    In the wake of her 29th birthday, Issa reflects on her life
-                    and relationship choices.
-                  </p>
                 </li>
               ))}
             </ul>
@@ -155,11 +151,10 @@ export default function Page() {
         </div>
         <div className={styles.episodeDetailsContent}>
           <h3 className={styles.episodeDetailsContentTitle}>
-            Insecure as Fuck
+            {carouselItems[episodeCarousel].title}
           </h3>
           <p className={styles.episodeDetailsContentDescription}>
-            In the wake of her 29th birthday, Issa reflects on her life and
-            relationship choices.
+            {carouselItems[episodeCarousel].description}
           </p>
         </div>
       </section>
