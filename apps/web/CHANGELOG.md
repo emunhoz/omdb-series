@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/emunhoz/omdb-series/compare/web@0.3.2...web@0.4.0) (2023-06-16)
+
+
+### Features
+
+* **apps/web:** using `EpisodeCard` from `ui` ([8df5950](https://github.com/emunhoz/omdb-series/commit/8df5950aa99abcd25575c5c88deececf015712b5))
+
+
+
+
+
 ## [0.3.2](https://github.com/emunhoz/omdb-series/compare/web@0.3.1...web@0.3.2) (2023-06-15)
 
 **Note:** Version bump only for package web

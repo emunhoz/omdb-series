@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/emunhoz/omdb-series/compare/ui@0.1.0...ui@0.2.0) (2023-06-16)
+
+
+### Features
+
+* **packages/ui:** adding `EpisodeCard` component ([f06eedc](https://github.com/emunhoz/omdb-series/commit/f06eedcb084cb2c4dc3fca43607f4d17c76e8523))
+
+
+
+
+
 # 0.1.0 (2023-06-16)
 
 
