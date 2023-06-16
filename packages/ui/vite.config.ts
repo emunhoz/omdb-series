@@ -5,6 +5,12 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+      generateScopedName: '[hash:base64:8]',
+    },
+  },
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
