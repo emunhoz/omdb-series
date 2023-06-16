@@ -3,6 +3,7 @@
   scroll-snap-align: start;
   scroll-snap-stop: always;
   position: relative;
+  min-height: 240px;
 }
 
 .episodeImage {
@@ -20,6 +21,13 @@
   opacity: 1;
   margin-right: 48px;
   transition: all ease 1s;
+  object-fit: cover;
+  max-inline-size: 100%;
+  block-size: 100%;
+  min-height: 134px;
+  max-height: 612px;
+  height: 100%;
+  min-width: 201px;
 }
 
 .episodeImageActive:after {
