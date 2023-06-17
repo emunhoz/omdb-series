@@ -11,7 +11,7 @@
   object-fit: cover;
   max-inline-size: 100%;
   block-size: 100%;
-  min-height: 300px;
+  min-height: 375px;
   height: 100%;
   width: 100%;
   opacity: .4;
@@ -23,7 +23,7 @@
   object-fit: cover;
   max-inline-size: 100%;
   block-size: 100%;
-  min-height: 300px;
+  min-height: 375px;
   height: 100%;
   width: 100%;
 }

@@ -5,6 +5,7 @@ import * as styles from './page.module.css'
 import { useState } from 'react'
 import { EpisodeCard } from 'ui'
 import { useQuery } from '@tanstack/react-query'
+import Skeleton from 'react-loading-skeleton'
 
 const baseUrl = `https://www.omdbapi.com/?apikey=9109559c`
 const serieName = `black mirror`
@@ -62,7 +63,7 @@ export default function Page() {
 
   const {
     data: episodeDetailsData,
-    isLoading: isLoadingEpisodeDetails,
+    isLoading: isLoadingEpisodes,
     error: errorEpisodeDetails,
   } = useQuery({
     queryKey: ['hydrate-episode-details'],
@@ -70,6 +71,8 @@ export default function Page() {
     refetchOnWindowFocus: false,
     enabled: !!sessionEpisodes,
   })
+
+  console.log(episodeDetailsData, 'episodeDetailsData')
 
   const episodeDetailsContentData =
     episodeDetailsData?.length && episodeDetailsData[episodeCarouselActive]
@@ -82,9 +85,35 @@ export default function Page() {
     <main>
       <section className={styles.mainSection}>
         <div>
-          <small className={styles.seasonNumber}>Season {season?.Season}</small>
-          <h1 className={styles.seriesName}>{series?.Title}</h1>
-          <p className={styles.seriesDescription}>{series?.Plot}</p>
+          <small className={styles.seasonNumber}>
+            {season?.Season ? (
+              `Season ${season.Season}`
+            ) : (
+              <Skeleton
+                baseColor="#25282a"
+                highlightColor="#383838"
+                width={100}
+              />
+            )}
+          </small>
+          <h1 className={styles.seriesName}>
+            {series?.Title || (
+              <Skeleton
+                baseColor="#25282a"
+                highlightColor="#383838"
+                width={400}
+              />
+            )}
+          </h1>
+          <p className={styles.seriesDescription}>
+            {series?.Plot || (
+              <Skeleton
+                count={2}
+                baseColor="#25282a"
+                highlightColor="#383838"
+              />
+            )}
+          </p>
         </div>
         <div aria-labelledby="carouselheading" className={styles.pageSection}>
           <h3 id="carouselheading" hidden aria-hidden>
@@ -93,6 +122,41 @@ export default function Page() {
 
           <div className={styles.carousel}>
             <ul className={styles.carouselWrapper}>
+              {isLoadingEpisodes &&
+                Array.from({ length: 5 }).map(() => (
+                  <li className={styles.episodeListItem}>
+                    <a className={styles.episodeLink}>
+                      <EpisodeCard
+                        episodeTitle={
+                          <Skeleton
+                            width={100}
+                            baseColor="#25282a"
+                            highlightColor="#383838"
+                          />
+                        }
+                        episodeNumber={0}
+                        isActive={false}
+                        placeholder={
+                          <Skeleton
+                            width={300}
+                            height={375}
+                            baseColor="#25282a"
+                            highlightColor="#383838"
+                          />
+                        }
+                        imgUrl={''}
+                        description={
+                          <Skeleton
+                            count={3}
+                            baseColor="#25282a"
+                            highlightColor="#383838"
+                          />
+                        }
+                      />
+                    </a>
+                  </li>
+                ))}
+
               {episodeDetailsData?.map((item, index) => (
                 <li
                   className={
@@ -181,8 +245,15 @@ export default function Page() {
       <section className={styles.episodeDetails}>
         <div className={styles.episodeDetailsHeader}>
           <div className={styles.episodeDetailsHeaderTitle}>
-            Episode {episodeDetailsContentData?.Episode} -{' '}
-            {episodeDetailsContentData?.Released}
+            {episodeDetailsContentData?.Episode ? (
+              `Episode ${episodeDetailsContentData?.Episode} - ${episodeDetailsContentData?.Released}`
+            ) : (
+              <Skeleton
+                baseColor="#e0e0e0"
+                highlightColor="#f0f0f0"
+                width={100}
+              />
+            )}
           </div>
           <div className={styles.rating}>
             <div>
@@ -214,10 +285,23 @@ export default function Page() {
         </div>
         <div className={styles.episodeDetailsContent}>
           <h3 className={styles.episodeDetailsContentTitle}>
-            {episodeDetailsContentData?.Title}
+            {episodeDetailsContentData?.Title || (
+              <Skeleton
+                baseColor="#e0e0e0"
+                highlightColor="#f0f0f0"
+                width={300}
+                height={36}
+              />
+            )}
           </h3>
           <p className={styles.episodeDetailsContentDescription}>
-            {episodeDetailsContentData?.Plot}
+            {episodeDetailsContentData?.Plot || (
+              <Skeleton
+                baseColor="#e0e0e0"
+                highlightColor="#f0f0f0"
+                count={3}
+              />
+            )}
           </p>
         </div>
       </section>
