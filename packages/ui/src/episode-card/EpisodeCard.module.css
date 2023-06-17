@@ -11,10 +11,11 @@
   object-fit: cover;
   max-inline-size: 100%;
   block-size: 100%;
-  min-height: 375px;
+  /* min-height: 375px; */
   height: 100%;
   width: 100%;
   opacity: .4;
+  max-height: 134px;
 }
 
 .episodeImageActive {
@@ -23,9 +24,10 @@
   object-fit: cover;
   max-inline-size: 100%;
   block-size: 100%;
-  min-height: 375px;
+  /* min-height: 375px; */
   height: 100%;
   width: 100%;
+  max-height: 134px;
 }
 
 .episodeImageActive:after {

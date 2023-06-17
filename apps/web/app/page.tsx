@@ -8,9 +8,9 @@ import { useQuery } from '@tanstack/react-query'
 import Skeleton from 'react-loading-skeleton'
 
 const baseUrl = `https://www.omdbapi.com/?apikey=9109559c`
-const serieName = `black mirror`
+const serieName = `insecure`
 const fullUrl = `${baseUrl}&t=${serieName}`
-const seasonNumber = 6
+const seasonNumber = 1
 
 async function getSeries() {
   const response = await fetch(fullUrl)
@@ -84,106 +84,107 @@ export default function Page() {
   return (
     <main>
       <section className={styles.mainSection}>
-        <div>
-          <small className={styles.seasonNumber}>
-            {season?.Season ? (
-              `Season ${season.Season}`
-            ) : (
-              <Skeleton
-                baseColor="#25282a"
-                highlightColor="#383838"
-                width={100}
-              />
-            )}
-          </small>
-          <h1 className={styles.seriesName}>
-            {series?.Title || (
-              <Skeleton
-                baseColor="#25282a"
-                highlightColor="#383838"
-                width={400}
-              />
-            )}
-          </h1>
-          <p className={styles.seriesDescription}>
-            {series?.Plot || (
-              <Skeleton
-                count={2}
-                baseColor="#25282a"
-                highlightColor="#383838"
-              />
-            )}
-          </p>
-        </div>
-        <div aria-labelledby="carouselheading" className={styles.pageSection}>
-          <h3 id="carouselheading" hidden aria-hidden>
-            Episodes
-          </h3>
+        <div className={styles.mainSectionContainer}>
+          <div className={styles.mainSectionWrapper}>
+            <small className={styles.seasonNumber}>
+              {season?.Season ? (
+                `Season ${season.Season}`
+              ) : (
+                <Skeleton
+                  baseColor="#25282a"
+                  highlightColor="#383838"
+                  width={100}
+                />
+              )}
+            </small>
+            <h1 className={styles.seriesName}>
+              {series?.Title || (
+                <Skeleton
+                  baseColor="#25282a"
+                  highlightColor="#383838"
+                  width={400}
+                />
+              )}
+            </h1>
+            <p className={styles.seriesDescription}>
+              {series?.Plot || (
+                <Skeleton
+                  count={3}
+                  baseColor="#25282a"
+                  highlightColor="#383838"
+                />
+              )}
+            </p>
+          </div>
+          <div aria-labelledby="carouselheading" className={styles.pageSection}>
+            <h3 id="carouselheading" hidden aria-hidden>
+              Episodes
+            </h3>
 
-          <div className={styles.carousel}>
-            <ul className={styles.carouselWrapper}>
-              {isLoadingEpisodes &&
-                Array.from({ length: 5 }).map(() => (
-                  <li className={styles.episodeListItem}>
-                    <a className={styles.episodeLink}>
+            <div className={styles.carousel}>
+              <ul className={styles.carouselWrapper}>
+                {isLoadingEpisodes &&
+                  Array.from({ length: 5 }).map(() => (
+                    <li className={styles.episodeListItem}>
+                      <a className={styles.episodeLink}>
+                        <EpisodeCard
+                          episodeTitle={
+                            <Skeleton
+                              width={100}
+                              baseColor="#25282a"
+                              highlightColor="#383838"
+                            />
+                          }
+                          episodeNumber={0}
+                          isActive={false}
+                          placeholder={
+                            <Skeleton
+                              width={300}
+                              height={134}
+                              baseColor="#25282a"
+                              highlightColor="#383838"
+                            />
+                          }
+                          imgUrl={''}
+                          description={
+                            <Skeleton
+                              count={3}
+                              baseColor="#25282a"
+                              highlightColor="#383838"
+                            />
+                          }
+                        />
+                      </a>
+                    </li>
+                  ))}
+
+                {episodeDetailsData?.map((item, index) => (
+                  <li
+                    className={
+                      episodeCarouselActive === index
+                        ? styles.episodeListItemActive
+                        : styles.episodeListItem
+                    }
+                    key={item.Episode}
+                    arial-hidden={
+                      episodeCarouselActive === index ? 'false' : 'true'
+                    }
+                    id={`-${index}`}
+                    onClick={() => setCurrentEpisodeCarouselActive(index)}
+                  >
+                    <a href={`#-${index}`} className={styles.episodeLink}>
                       <EpisodeCard
-                        episodeTitle={
-                          <Skeleton
-                            width={100}
-                            baseColor="#25282a"
-                            highlightColor="#383838"
-                          />
-                        }
-                        episodeNumber={0}
-                        isActive={false}
-                        placeholder={
-                          <Skeleton
-                            width={300}
-                            height={375}
-                            baseColor="#25282a"
-                            highlightColor="#383838"
-                          />
-                        }
-                        imgUrl={''}
-                        description={
-                          <Skeleton
-                            count={3}
-                            baseColor="#25282a"
-                            highlightColor="#383838"
-                          />
-                        }
+                        episodeTitle={item.Title}
+                        episodeNumber={item.Episode}
+                        isActive={episodeCarouselActive === index}
+                        imgUrl={item.Poster}
+                        description={item.Plot}
                       />
                     </a>
                   </li>
                 ))}
-
-              {episodeDetailsData?.map((item, index) => (
-                <li
-                  className={
-                    episodeCarouselActive === index
-                      ? styles.episodeListItemActive
-                      : styles.episodeListItem
-                  }
-                  key={item.Episode}
-                  arial-hidden={
-                    episodeCarouselActive === index ? 'false' : 'true'
-                  }
-                  id={`-${index}`}
-                  onClick={() => setCurrentEpisodeCarouselActive(index)}
-                >
-                  <a href={`#-${index}`} className={styles.episodeLink}>
-                    <EpisodeCard
-                      episodeTitle={item.Title}
-                      episodeNumber={item.Episode}
-                      isActive={episodeCarouselActive === index}
-                      imgUrl={item.Poster}
-                      description={item.Plot}
-                    />
-                  </a>
-                </li>
-              ))}
-            </ul>
-            {/* <nav className={styles.arrowsNavigation}>
+              </ul>
+              {/* <nav className={styles.arrowsNavigation}>
               <button
                 className={styles.arrowsNavigationButton}
                 disabled={findIndexCurrentEpisode <= 0}
@@ -227,22 +228,32 @@ export default function Page() {
                 </a>
               </button>
             </nav> */}
+            </div>
           </div>
+          {series && (
+            <Image
+              className={styles.poster}
+              src={series?.Poster}
+              alt={`Poster`}
+              width={100}
+              height={100}
+              placeholder="blur"
+              blurDataURL="/images/poster.png"
+            />
+          )}
         </div>
-        {series && (
-          <Image
-            className={styles.poster}
-            src={series?.Poster}
-            alt={`Poster`}
-            width={100}
-            height={100}
-            placeholder="blur"
-            blurDataURL="/images/poster.png"
-          />
-        )}
       </section>
 
       <section className={styles.episodeDetails}>
+        {episodeDetailsContentData && (
+          <Image
+            className={styles.episodeDetailsPoster}
+            src={episodeDetailsContentData?.Poster}
+            alt={`Poster`}
+            width={100}
+            height={100}
+          />
+        )}
         <div className={styles.episodeDetailsHeader}>
           <div className={styles.episodeDetailsHeaderTitle}>
             {episodeDetailsContentData?.Episode ? (
