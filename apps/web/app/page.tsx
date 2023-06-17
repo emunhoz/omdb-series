@@ -8,9 +8,9 @@ import { useQuery } from '@tanstack/react-query'
 import Skeleton from 'react-loading-skeleton'
 
 const baseUrl = `https://www.omdbapi.com/?apikey=9109559c`
-const serieName = `insecure`
+const serieName = `black mirror`
 const fullUrl = `${baseUrl}&t=${serieName}`
-const seasonNumber = 1
+const seasonNumber = 6
 
 async function getSeries() {
   const response = await fetch(fullUrl)
