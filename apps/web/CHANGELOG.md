@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/emunhoz/omdb-series/compare/web@0.6.0...web@0.7.0) (2023-06-17)
+
+
+### Features
+
+* desktop version ([69d6f35](https://github.com/emunhoz/omdb-series/commit/69d6f355cb4a83c1210dd252c2c19848512219bf))
+
+
+
+
+
 # [0.6.0](https://github.com/emunhoz/omdb-series/compare/web@0.5.0...web@0.6.0) (2023-06-17)
 
 
