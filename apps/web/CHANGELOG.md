@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/emunhoz/omdb-series/compare/web@0.5.0...web@0.6.0) (2023-06-17)
+
+
+### Features
+
+* adding loading state ([9e514ee](https://github.com/emunhoz/omdb-series/commit/9e514eebce48560e57d2ee441f850e050372145b))
+
+
+
+
+
 # [0.5.0](https://github.com/emunhoz/omdb-series/compare/web@0.4.1...web@0.5.0) (2023-06-17)
 
 
