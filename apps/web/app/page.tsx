@@ -2,62 +2,89 @@
 
 import Image from 'next/image'
 import * as styles from './page.module.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { EpisodeCard } from 'ui'
+import { useQuery } from '@tanstack/react-query'
+
+const baseUrl = `https://www.omdbapi.com/?apikey=9109559c`
+const serieName = `black mirror`
+const fullUrl = `${baseUrl}&t=${serieName}`
+const seasonNumber = 6
+
+async function getSeries() {
+  const response = await fetch(fullUrl)
+  const series = await response.json()
+  return series
+}
+
+async function fetchEpisodiesFromSeason() {
+  const response = await fetch(`${fullUrl}&Season=${seasonNumber}`)
+  const season = await response.json()
+  return season
+}
+
+async function fetchEpisodeDetails(session: any) {
+  const url = `${fullUrl}&Season=${seasonNumber}`
+  const urls = session.map((episodeNumber) => `${url}&Episode=${episodeNumber}`)
+
+  const response = Promise.all(
+    urls.map(async (url) => {
+      const resp = await fetch(url)
+      return resp.json()
+    })
+  )
+
+  return response
+}
 
 export default function Page() {
-  const [episodeCarousel, setEpisodeCarousel] = useState(0)
+  const [episodeCarouselActive, setCurrentEpisodeCarouselActive] = useState(0)
 
-  const carouselItems = [
-    {
-      title: 'Insecure as Fuck',
-      imgUrl: '/images/episodes/insecure.png',
-      description:
-        'In the wake of her 29th birthday, Issa reflects on herlife and relationship choices.',
-    },
-    {
-      title: 'Messy as Fuck',
-      imgUrl: '/images/episodes/insecure.png',
-      description:
-        'Issa struggles with her feelings about Lawrence, work, and her life.',
-    },
-    {
-      title: 'Racist as Fuck',
-      imgUrl: '/images/episodes/insecure.png',
-      description:
-        'Issa and Lawrence try to move past their issues at home; Issa deals with doubts from lorem ipsum dolor sit',
-    },
-    {
-      title: 'Thirsty as Fuck',
-      imgUrl: '/images/episodes/insecure.png',
-      description:
-        'Issa turns to Daniel for help during Career Day; Molly finds herself in a tough lorem ipsum dolor sit',
-    },
-  ]
+  const { data: series, isLoading: isLoadingSeries } = useQuery({
+    queryKey: ['hydrate-series'],
+    queryFn: () => getSeries(),
+    refetchOnWindowFocus: false,
+  })
 
-  useEffect(() => {
-    const onHashChanged = () => {
-      const episodeNumber = window.location.hash.split('-')[1]
-      setEpisodeCarousel(Number(episodeNumber))
-    }
+  const {
+    data: season,
+    isLoading: isLoadingSeason,
+    error: errorSeason,
+  } = useQuery({
+    queryKey: ['hydrate-season'],
+    queryFn: () => fetchEpisodiesFromSeason(),
+    refetchOnWindowFocus: false,
+  })
 
-    window.addEventListener('hashchange', onHashChanged)
+  const sessionEpisodes = season?.Episodes?.map(
+    (episodeNumber) => episodeNumber.Episode
+  )
 
-    return () => {
-      window.removeEventListener('hashchange', onHashChanged)
-    }
-  }, [episodeCarousel, setEpisodeCarousel])
+  const {
+    data: episodeDetailsData,
+    isLoading: isLoadingEpisodeDetails,
+    error: errorEpisodeDetails,
+  } = useQuery({
+    queryKey: ['hydrate-episode-details'],
+    queryFn: () => fetchEpisodeDetails(sessionEpisodes),
+    refetchOnWindowFocus: false,
+    enabled: !!sessionEpisodes,
+  })
+
+  const episodeDetailsContentData =
+    episodeDetailsData?.length && episodeDetailsData[episodeCarouselActive]
+
+  // const findIndexCurrentEpisode = episodeDetailsData?.findIndex(
+  //   (episode) => episode.Episode === String(episodeCarouselActive)
+  // )
 
   return (
     <main>
       <section className={styles.mainSection}>
         <div>
-          <small className={styles.seasonNumber}>Season 1</small>
-          <h1 className={styles.seriesName}>Insecure</h1>
-          <p className={styles.seriesDescription}>
-            Follows the awkward experiences and racy tribulations of a
-            modern-day African-American woman.
-          </p>
+          <small className={styles.seasonNumber}>Season {season?.Season}</small>
+          <h1 className={styles.seriesName}>{series?.Title}</h1>
+          <p className={styles.seriesDescription}>{series?.Plot}</p>
         </div>
         <div aria-labelledby="carouselheading" className={styles.pageSection}>
           <h3 id="carouselheading" hidden aria-hidden>
@@ -66,73 +93,96 @@ export default function Page() {
 
           <div className={styles.carousel}>
             <ul className={styles.carouselWrapper}>
-              {carouselItems.map((item, index) => (
+              {episodeDetailsData?.map((item, index) => (
                 <li
                   className={
-                    episodeCarousel === index
+                    episodeCarouselActive === index
                       ? styles.episodeListItemActive
                       : styles.episodeListItem
                   }
-                  key={index}
-                  arial-hidden={episodeCarousel === index ? 'true' : 'false'}
-                  id={`episode-${index}`}
+                  key={item.Episode}
+                  arial-hidden={
+                    episodeCarouselActive === index ? 'false' : 'true'
+                  }
+                  id={`-${index}`}
+                  onClick={() => setCurrentEpisodeCarouselActive(index)}
                 >
-                  <a href={`#episode-${index}`} className={styles.episodeLink}>
+                  <a href={`#-${index}`} className={styles.episodeLink}>
                     <EpisodeCard
-                      episodeTitle={item.title}
-                      episodeNumber={index}
-                      isActive={episodeCarousel === index}
-                      imgUrl={item.imgUrl}
-                      description={item.description}
+                      episodeTitle={item.Title}
+                      episodeNumber={item.Episode}
+                      isActive={episodeCarouselActive === index}
+                      imgUrl={item.Poster}
+                      description={item.Plot}
                     />
                   </a>
                 </li>
               ))}
             </ul>
-            <nav className={styles.arrowsNavigation}>
-              <a
-                href={
-                  episodeCarousel === 0
-                    ? `#episode-${episodeCarousel}`
-                    : `#episode-${episodeCarousel - 1}`
+            {/* <nav className={styles.arrowsNavigation}>
+              <button
+                className={styles.arrowsNavigationButton}
+                disabled={findIndexCurrentEpisode <= 0}
+              >
+                <a
+                  href={
+                    findIndexCurrentEpisode === 0
+                      ? `#-${findIndexCurrentEpisode - 1}`
+                      : `#-${findIndexCurrentEpisode}`
+                  }
+                  onClick={() =>
+                    setCurrentEpisodeCarouselActive(episodeCarouselActive - 1)
+                  }
+                >
+                  <Image
+                    src="/icons/tail-left.svg"
+                    alt={`Tail left`}
+                    width={29}
+                    height={19}
+                  />
+                </a>
+              </button>
+              <button
+                className={styles.arrowsNavigationButton}
+                disabled={
+                  episodeCarouselActive === episodeDetailsData?.length - 1
                 }
               >
-                <Image
-                  src="/icons/tail-left.svg"
-                  alt={`Tail left`}
-                  width={29}
-                  height={19}
-                />
-              </a>
-              <a
-                href={
-                  episodeCarousel === carouselItems.length - 1
-                    ? `#episode-${episodeCarousel}`
-                    : `#episode-${episodeCarousel + 1}`
-                }
-              >
-                <Image
-                  src="/icons/tail-right.svg"
-                  alt={`Tail right`}
-                  width={29}
-                  height={19}
-                />
-              </a>
-            </nav>
+                <a
+                  href={`#-${findIndexCurrentEpisode + 1}`}
+                  onClick={() =>
+                    setCurrentEpisodeCarouselActive(episodeCarouselActive + 1)
+                  }
+                >
+                  <Image
+                    src="/icons/tail-right.svg"
+                    alt={`Tail right`}
+                    width={29}
+                    height={19}
+                  />
+                </a>
+              </button>
+            </nav> */}
           </div>
         </div>
-        <Image
-          className={styles.poster}
-          src="/images/poster.png"
-          alt={`Poster`}
-          width={100}
-          height={100}
-        />
+        {series && (
+          <Image
+            className={styles.poster}
+            src={series?.Poster}
+            alt={`Poster`}
+            width={100}
+            height={100}
+            placeholder="blur"
+            blurDataURL="/images/poster.png"
+          />
+        )}
       </section>
+
       <section className={styles.episodeDetails}>
         <div className={styles.episodeDetailsHeader}>
           <div className={styles.episodeDetailsHeaderTitle}>
-            Episode {episodeCarousel} - 2011-04-17
+            Episode {episodeDetailsContentData?.Episode} -{' '}
+            {episodeDetailsContentData?.Released}
           </div>
           <div className={styles.rating}>
             <div>
@@ -144,17 +194,30 @@ export default function Page() {
                 height={24}
               />
             </div>
-            <div>
-              <strong className={styles.ratingClassification}>9</strong>/10
-            </div>
+            {episodeDetailsContentData?.imdbRating === 'N/A' && (
+              <div>
+                <strong className={styles.ratingClassification}>
+                  {episodeDetailsContentData?.imdbRating}
+                </strong>
+              </div>
+            )}
+
+            {episodeDetailsContentData?.imdbRating !== 'N/A' && (
+              <div>
+                <strong className={styles.ratingClassification}>
+                  {episodeDetailsContentData?.imdbRating}
+                </strong>
+                /10
+              </div>
+            )}
           </div>
         </div>
         <div className={styles.episodeDetailsContent}>
           <h3 className={styles.episodeDetailsContentTitle}>
-            {carouselItems[episodeCarousel].title}
+            {episodeDetailsContentData?.Title}
           </h3>
           <p className={styles.episodeDetailsContentDescription}>
-            {carouselItems[episodeCarousel].description}
+            {episodeDetailsContentData?.Plot}
           </p>
         </div>
       </section>
