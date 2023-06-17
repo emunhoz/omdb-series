@@ -19,7 +19,8 @@
   z-index: -1;
   height: 100%;
   mix-blend-mode: normal;
-  opacity: 0.48;
+  opacity: 0.2;
+  filter: brightness(0.5);
 }
 
 .seasonNumber {
@@ -39,15 +40,23 @@
 }
 
 .episodeListItem {
-  max-width: 201px;
-  margin-right: 28px;
   transition: all ease .3s;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  margin-right: 24px;
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content;
 }
 
 .episodeListItemActive {
-  max-width: 201px;
-  margin-right: 48px;
   transition: all ease .3s;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  margin-right: 24px;
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content;
 }
 
 .episodeLink {
@@ -58,6 +67,7 @@
 .carousel {
   overflow: hidden;
   min-inline-size: 300px;
+  max-inline-size: 940px;
 }
 
 .carouselWrapper {
@@ -75,8 +85,6 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  
-  /* clip away the scrollbar */
   block-size: calc(100% + 25px);
   margin-bottom: 20px;
 }
@@ -87,8 +95,18 @@
   margin-bottom: 20px;
 }
 
-.arrowsNavigation a:first-child {
+.arrowsNavigation button:first-child {
   margin-right: 10px;
+}
+
+.arrowsNavigationButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.arrowsNavigationButton:disabled {
+  opacity: .2;
 }
 
 .episodeDetails {
