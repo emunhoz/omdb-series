@@ -6,52 +6,22 @@ import { useState } from 'react'
 import { EpisodeCard } from 'ui'
 import { useQuery } from '@tanstack/react-query'
 import Skeleton from 'react-loading-skeleton'
-
-const baseUrl = `https://www.omdbapi.com/?apikey=9109559c`
-const serieName = `black mirror`
-const fullUrl = `${baseUrl}&t=${serieName}`
-const seasonNumber = 6
-
-async function getSeries() {
-  const response = await fetch(fullUrl)
-  const series = await response.json()
-  return series
-}
-
-async function fetchEpisodiesFromSeason() {
-  const response = await fetch(`${fullUrl}&Season=${seasonNumber}`)
-  const season = await response.json()
-  return season
-}
-
-async function fetchEpisodeDetails(session: any) {
-  const url = `${fullUrl}&Season=${seasonNumber}`
-  const urls = session.map((episodeNumber) => `${url}&Episode=${episodeNumber}`)
-
-  const response = Promise.all(
-    urls.map(async (url) => {
-      const resp = await fetch(url)
-      return resp.json()
-    })
-  )
-
-  return response
-}
+import {
+  getSeries,
+  fetchEpisodeDetails,
+  fetchEpisodiesFromSeason,
+} from './services'
 
 export default function Page() {
   const [episodeCarouselActive, setCurrentEpisodeCarouselActive] = useState(0)
 
-  const { data: series, isLoading: isLoadingSeries } = useQuery({
+  const { data: series } = useQuery({
     queryKey: ['hydrate-series'],
     queryFn: () => getSeries(),
     refetchOnWindowFocus: false,
   })
 
-  const {
-    data: season,
-    isLoading: isLoadingSeason,
-    error: errorSeason,
-  } = useQuery({
+  const { data: season } = useQuery({
     queryKey: ['hydrate-season'],
     queryFn: () => fetchEpisodiesFromSeason(),
     refetchOnWindowFocus: false,
@@ -61,18 +31,12 @@ export default function Page() {
     (episodeNumber) => episodeNumber.Episode
   )
 
-  const {
-    data: episodeDetailsData,
-    isLoading: isLoadingEpisodes,
-    error: errorEpisodeDetails,
-  } = useQuery({
+  const { data: episodeDetailsData, isLoading: isLoadingEpisodes } = useQuery({
     queryKey: ['hydrate-episode-details'],
     queryFn: () => fetchEpisodeDetails(sessionEpisodes),
     refetchOnWindowFocus: false,
     enabled: !!sessionEpisodes,
   })
-
-  console.log(episodeDetailsData, 'episodeDetailsData')
 
   const episodeDetailsContentData =
     episodeDetailsData?.length && episodeDetailsData[episodeCarouselActive]
