@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/emunhoz/omdb-series/compare/web@0.4.1...web@0.5.0) (2023-06-17)
+
+
+### Features
+
+* **apps/web:** adding `react-query` wrapper ([5888d76](https://github.com/emunhoz/omdb-series/commit/5888d763a5db10f4f728a1544c63bd947ce5987e))
+
+
+
+
+
 ## [0.4.1](https://github.com/emunhoz/omdb-series/compare/web@0.4.0...web@0.4.1) (2023-06-16)
 
 **Note:** Version bump only for package web
