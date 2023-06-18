@@ -1,18 +1,20 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQueries, useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Skeleton from 'react-loading-skeleton'
 import { EpisodeCard } from 'ui'
 import {
   getSeries,
-  fetchEpisodeDetails,
   fetchEpisodiesFromSeason,
+  fetchEpisodeByNumber,
 } from './services'
 import * as styles from './page.module.css'
 
 export default function Page() {
+  const [episodeCarouselActive, setCurrentEpisodeCarouselActive] = useState(1)
+
   const { data: series } = useQuery({
     queryKey: ['hydrate-series'],
     queryFn: getSeries,
@@ -29,20 +31,21 @@ export default function Page() {
     (episodeNumber) => episodeNumber.Episode
   )
 
-  const [episodeCarouselActive, setCurrentEpisodeCarouselActive] = useState(1)
-
-  const { data: episodeDetailsData, isLoading: isLoadingEpisodes } = useQuery({
-    queryKey: ['hydrate-episode-details'],
-    queryFn: () => fetchEpisodeDetails(sessionEpisodes),
-    refetchOnWindowFocus: false,
-    enabled: !!sessionEpisodes,
+  const episodes = useQueries({
+    queries: (sessionEpisodes || []).map((episode) => ({
+      queryKey: ['episode', episode],
+      queryFn: () => fetchEpisodeByNumber(episode),
+      enabled: !!sessionEpisodes,
+      refetchOnWindowFocus: false,
+    })),
   })
 
   const episodeDetailsContentData =
-    episodeDetailsData?.length &&
-    episodeDetailsData.find(
-      (episode) => episode.Episode === String(episodeCarouselActive)
-    )
+    episodes?.length &&
+    episodes.find(
+      (episode: any) =>
+        String(episode.data?.Episode) === String(episodeCarouselActive)
+    )?.data
 
   return (
     <main>
@@ -86,7 +89,7 @@ export default function Page() {
 
             <div className={styles.carousel}>
               <ul className={styles.carouselWrapper}>
-                {isLoadingEpisodes &&
+                {episodes?.at(-1)?.status === 'loading' &&
                   Array.from({ length: 5 }).map((_, index) => (
                     <li className={styles.episodeListItem} key={index}>
                       <a className={styles.episodeLink}>
@@ -121,35 +124,38 @@ export default function Page() {
                     </li>
                   ))}
 
-                {episodeDetailsData?.map((item) => (
-                  <li
-                    className={
-                      episodeCarouselActive === Number(item.Episode)
-                        ? styles.episodeListItemActive
-                        : styles.episodeListItem
-                    }
-                    key={item.Episode}
-                    id={`episode-${item.Episode}`}
-                    onClick={() =>
-                      setCurrentEpisodeCarouselActive(Number(item.Episode))
-                    }
-                  >
-                    <a
-                      href={`#episode-${item.Episode}`}
-                      className={styles.episodeLink}
+                {episodes?.at(-1)?.status === 'success' &&
+                  episodes?.map((item: any) => (
+                    <li
+                      className={
+                        episodeCarouselActive === Number(item.data?.Episode)
+                          ? styles.episodeListItemActive
+                          : styles.episodeListItem
+                      }
+                      key={item.data?.Episode}
+                      id={`episode-${item.data?.Episode}`}
+                      onClick={() =>
+                        setCurrentEpisodeCarouselActive(
+                          Number(item.data.Episode)
+                        )
+                      }
                     >
-                      <EpisodeCard
-                        episodeTitle={item.Title}
-                        episodeNumber={item.Episode}
-                        isActive={
-                          episodeCarouselActive === Number(item.Episode)
-                        }
-                        imgUrl={item.Poster}
-                        description={item.Plot}
-                      />
-                    </a>
-                  </li>
-                ))}
+                      <a
+                        href={`#episode-${item.data?.Episode}`}
+                        className={styles.episodeLink}
+                      >
+                        <EpisodeCard
+                          episodeTitle={item.data?.Title}
+                          episodeNumber={item.data?.Episode}
+                          isActive={
+                            episodeCarouselActive === Number(item.data?.Episode)
+                          }
+                          imgUrl={item.data?.Poster}
+                          description={item.data?.Plot}
+                        />
+                      </a>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>

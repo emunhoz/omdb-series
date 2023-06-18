@@ -10,14 +10,9 @@ export async function fetchEpisodiesFromSeason() {
   return await response.json()
 }
 
-export async function fetchEpisodeDetails(session: string[]) {
-  const url = `${fullUrl}&Season=${seasonNumber}`
-  const urls = session.map((episodeNumber) => `${url}&Episode=${episodeNumber}`)
+export async function fetchEpisodeByNumber(episode: string) {
+  const url = `${fullUrl}&Season=${seasonNumber}&Episode=${episode}`
 
-  return Promise.all(
-    urls.map(async (url) => {
-      const resp = await fetch(url)
-      return resp.json()
-    })
-  )
+  const resp = await fetch(url)
+  return resp.json()
 }
