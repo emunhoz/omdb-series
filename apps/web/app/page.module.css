@@ -231,3 +231,9 @@
   margin-left: 10px;
   font-size: var(--font-size);
 }
+
+.episodeDetailsContentListDetails {
+  margin-bottom: 20px;
+  font-size: var(--font-size-medium);
+  color: var(--background); 
+}

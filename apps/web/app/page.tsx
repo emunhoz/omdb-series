@@ -44,8 +44,6 @@ export default function Page() {
       (episode) => episode.Episode === String(episodeCarouselActive)
     )[0]
 
-  console.log(episodeDetailsContentData, 'episodeDetailsContentData')
-
   return (
     <main>
       <section className={styles.mainSection}>
@@ -216,7 +214,7 @@ export default function Page() {
       </section>
 
       <section className={styles.episodeDetails}>
-        {episodeDetailsContentData && (
+        {(episodeDetailsContentData && (
           <Image
             className={styles.episodeDetailsPoster}
             src={episodeDetailsContentData?.Poster}
@@ -224,6 +222,8 @@ export default function Page() {
             width={100}
             height={100}
           />
+        )) || (
+          <Skeleton baseColor="#e0e0e0" highlightColor="#f0f0f0" height={536} />
         )}
         <div className={styles.episodeDetailsHeader}>
           <div className={styles.episodeDetailsHeaderTitle}>
@@ -233,7 +233,7 @@ export default function Page() {
               <Skeleton
                 baseColor="#e0e0e0"
                 highlightColor="#f0f0f0"
-                width={100}
+                width={192}
               />
             )}
           </div>
@@ -271,7 +271,7 @@ export default function Page() {
               <Skeleton
                 baseColor="#e0e0e0"
                 highlightColor="#f0f0f0"
-                width={300}
+                width={150}
                 height={36}
               />
             )}
@@ -281,7 +281,7 @@ export default function Page() {
               <Skeleton
                 baseColor="#e0e0e0"
                 highlightColor="#f0f0f0"
-                count={3}
+                count={4}
               />
             )}
           </p>
@@ -290,18 +290,55 @@ export default function Page() {
             <h3 className={styles.episodeDetailsContentListTitle}>Genre</h3>
             {episodeDetailsContentData?.Genre?.split(',').map((actor) => (
               <li>{actor}</li>
-            ))}
+            )) || (
+              <Skeleton
+                baseColor="#e0e0e0"
+                highlightColor="#f0f0f0"
+                width={80}
+                count={3}
+              />
+            )}
           </ul>
 
           <ul className={styles.episodeDetailsContentList}>
             <h3 className={styles.episodeDetailsContentListTitle}>Actors</h3>
             {episodeDetailsContentData?.Actors?.split(',').map((actor) => (
               <li>{actor}</li>
-            ))}
+            )) || (
+              <Skeleton
+                baseColor="#e0e0e0"
+                highlightColor="#f0f0f0"
+                count={3}
+                width={100}
+              />
+            )}
           </ul>
 
-          <div>Director: {episodeDetailsContentData?.Director}</div>
-          <small>Writer: {episodeDetailsContentData?.Writer}</small>
+          <div className={styles.episodeDetailsContentListDetails}>
+            <h3 className={styles.episodeDetailsContentListTitle}>Director</h3>
+            <div>
+              {episodeDetailsContentData?.Director || (
+                <Skeleton
+                  baseColor="#e0e0e0"
+                  width={100}
+                  highlightColor="#f0f0f0"
+                />
+              )}
+            </div>
+          </div>
+
+          <div className={styles.episodeDetailsContentListDetails}>
+            <h3 className={styles.episodeDetailsContentListTitle}>Writer</h3>
+            <div>
+              {episodeDetailsContentData?.Writer || (
+                <Skeleton
+                  baseColor="#e0e0e0"
+                  width={150}
+                  highlightColor="#f0f0f0"
+                />
+              )}
+            </div>
+          </div>
         </div>
       </section>
     </main>
