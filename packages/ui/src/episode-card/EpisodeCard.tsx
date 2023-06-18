@@ -24,6 +24,7 @@ export function EpisodeCard({
         <>
           <div className={styles.episodeNumber}>{episodeNumber}</div>
           <img
+            loading="lazy"
             className={
               isActive ? styles.episodeImageActive : styles.episodeImage
             }
