@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/emunhoz/omdb-series/compare/web@0.8.0...web@0.9.0) (2023-06-18)
+
+
+### Features
+
+* **apps/web:** eager images strategy ([66fdeeb](https://github.com/emunhoz/omdb-series/commit/66fdeebad98c1c28209dbf23d848d010b7b3e0cc))
+
+
+
+
+
 # [0.8.0](https://github.com/emunhoz/omdb-series/compare/web@0.7.9...web@0.8.0) (2023-06-18)
 
 
