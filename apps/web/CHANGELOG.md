@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.9](https://github.com/emunhoz/omdb-series/compare/web@0.9.8...web@0.9.9) (2023-06-18)
+
+
+### Reverts
+
+* **apps/web:** fetch episodes by number ([494ee64](https://github.com/emunhoz/omdb-series/commit/494ee64dd444071bdfd5de87d9392416a08de417))
+
+
+
+
+
 ## [0.9.8](https://github.com/emunhoz/omdb-series/compare/web@0.9.7...web@0.9.8) (2023-06-18)
 
 **Note:** Version bump only for package web
