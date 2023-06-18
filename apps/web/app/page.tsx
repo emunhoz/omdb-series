@@ -286,10 +286,10 @@ export default function Page() {
             )}
           </p>
 
-          <ul className={styles.episodeDetailsContentList}>
-            <h3 className={styles.episodeDetailsContentListTitle}>Genre</h3>
+          <dl className={styles.episodeDetailsContentList}>
+            <dt className={styles.episodeDetailsContentListTitle}>Genre</dt>
             {episodeDetailsContentData?.Genre?.split(',').map((actor) => (
-              <li>{actor}</li>
+              <dd>{actor}</dd>
             )) || (
               <Skeleton
                 baseColor="#e0e0e0"
@@ -298,12 +298,12 @@ export default function Page() {
                 count={3}
               />
             )}
-          </ul>
+          </dl>
 
-          <ul className={styles.episodeDetailsContentList}>
-            <h3 className={styles.episodeDetailsContentListTitle}>Actors</h3>
+          <dl className={styles.episodeDetailsContentList}>
+            <dt className={styles.episodeDetailsContentListTitle}>Actors</dt>
             {episodeDetailsContentData?.Actors?.split(',').map((actor) => (
-              <li>{actor}</li>
+              <dd>{actor}</dd>
             )) || (
               <Skeleton
                 baseColor="#e0e0e0"
@@ -312,9 +312,9 @@ export default function Page() {
                 width={100}
               />
             )}
-          </ul>
+          </dl>
 
-          <div className={styles.episodeDetailsContentListDetails}>
+          <div className={styles.episodeDetailsContentList}>
             <h3 className={styles.episodeDetailsContentListTitle}>Director</h3>
             <div>
               {episodeDetailsContentData?.Director || (
@@ -327,7 +327,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className={styles.episodeDetailsContentListDetails}>
+          <div className={styles.episodeDetailsContentList}>
             <h3 className={styles.episodeDetailsContentListTitle}>Writer</h3>
             <div>
               {episodeDetailsContentData?.Writer || (

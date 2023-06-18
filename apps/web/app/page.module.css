@@ -216,7 +216,7 @@
 
 .episodeDetailsContentList {
   list-style-type: disc;
-  font-size: var(--font-size-medium);
+  font-size: var(--font-size);
   color: var(--background);
   margin-bottom: 20px;
 }
@@ -225,15 +225,4 @@
   font-size: var(--font-size-medium);
   color: var(--background); 
   font-family: 'HelveticaNeueBd';
-}
-
-.episodeDetailsContentList li {
-  margin-left: 10px;
-  font-size: var(--font-size);
-}
-
-.episodeDetailsContentListDetails {
-  margin-bottom: 20px;
-  font-size: var(--font-size-medium);
-  color: var(--background); 
 }
