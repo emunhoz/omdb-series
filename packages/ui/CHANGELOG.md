@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/emunhoz/omdb-series/compare/ui@0.5.0...ui@0.6.0) (2023-06-18)
+
+
+### Features
+
+* **packages/ui:** lazy loading episode cards ([005edec](https://github.com/emunhoz/omdb-series/commit/005edecffdf4a6633b776e127517e737c7c50006))
+
+
+
+
+
 # [0.5.0](https://github.com/emunhoz/omdb-series/compare/ui@0.4.0...ui@0.5.0) (2023-06-17)
 
 
