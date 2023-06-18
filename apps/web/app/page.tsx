@@ -7,10 +7,12 @@ import Skeleton from 'react-loading-skeleton'
 import { EpisodeCard } from 'ui'
 import {
   getSeries,
+  fetchEpisodeDetails,
   fetchEpisodiesFromSeason,
   fetchEpisodeByNumber,
 } from './services'
 import * as styles from './page.module.css'
+import { fullUrl, seasonNumber } from './const'
 
 export default function Page() {
   const [episodeCarouselActive, setCurrentEpisodeCarouselActive] = useState(1)
@@ -31,21 +33,18 @@ export default function Page() {
     (episodeNumber) => episodeNumber.Episode
   )
 
-  const episodes = useQueries({
-    queries: (sessionEpisodes || []).map((episode) => ({
-      queryKey: ['episode', episode],
-      queryFn: () => fetchEpisodeByNumber(episode),
-      enabled: !!sessionEpisodes,
-      refetchOnWindowFocus: false,
-    })),
+  const { data: episodeDetailsData, isLoading: isLoadingEpisodes } = useQuery({
+    queryKey: ['hydrate-episode-details'],
+    queryFn: () => fetchEpisodeDetails(sessionEpisodes),
+    refetchOnWindowFocus: false,
+    enabled: !!sessionEpisodes,
   })
 
-  const episodeDetailsContentData: any =
-    episodes?.length &&
-    episodes.find(
-      (episode: any) =>
-        String(episode.data?.Episode) === String(episodeCarouselActive)
-    )?.data
+  const episodeDetailsContentData =
+    episodeDetailsData?.length &&
+    episodeDetailsData.find(
+      (episode) => episode.Episode === String(episodeCarouselActive)
+    )
 
   return (
     <main>
@@ -89,7 +88,7 @@ export default function Page() {
 
             <div className={styles.carousel}>
               <ul className={styles.carouselWrapper}>
-                {episodes?.at(-1)?.status === 'loading' &&
+                {isLoadingEpisodes &&
                   Array.from({ length: 5 }).map((_, index) => (
                     <li className={styles.episodeListItem} key={index}>
                       <a className={styles.episodeLink}>
@@ -124,38 +123,35 @@ export default function Page() {
                     </li>
                   ))}
 
-                {episodes?.at(-1)?.status === 'success' &&
-                  episodes?.map((item: any) => (
-                    <li
-                      className={
-                        episodeCarouselActive === Number(item.data?.Episode)
-                          ? styles.episodeListItemActive
-                          : styles.episodeListItem
-                      }
-                      key={item.data?.Episode}
-                      id={`episode-${item.data?.Episode}`}
-                      onClick={() =>
-                        setCurrentEpisodeCarouselActive(
-                          Number(item.data.Episode)
-                        )
-                      }
+                {episodeDetailsData?.map((item) => (
+                  <li
+                    className={
+                      episodeCarouselActive === Number(item.Episode)
+                        ? styles.episodeListItemActive
+                        : styles.episodeListItem
+                    }
+                    key={item.Episode}
+                    id={`episode-${item.Episode}`}
+                    onClick={() =>
+                      setCurrentEpisodeCarouselActive(Number(item.Episode))
+                    }
+                  >
+                    <a
+                      href={`#episode-${item.Episode}`}
+                      className={styles.episodeLink}
                     >
-                      <a
-                        href={`#episode-${item.data?.Episode}`}
-                        className={styles.episodeLink}
-                      >
-                        <EpisodeCard
-                          episodeTitle={item.data?.Title}
-                          episodeNumber={item.data?.Episode}
-                          isActive={
-                            episodeCarouselActive === Number(item.data?.Episode)
-                          }
-                          imgUrl={item.data?.Poster}
-                          description={item.data?.Plot}
-                        />
-                      </a>
-                    </li>
-                  ))}
+                      <EpisodeCard
+                        episodeTitle={item.Title}
+                        episodeNumber={item.Episode}
+                        isActive={
+                          episodeCarouselActive === Number(item.Episode)
+                        }
+                        imgUrl={item.Poster}
+                        description={item.Plot}
+                      />
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
