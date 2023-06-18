@@ -121,7 +121,7 @@
 .arrowsNavigation {
   display: flex;
   justify-content: flex-end;
-  padding: 30px;
+  padding: 30px 20px;
 }
 
 .arrowsNavigation button:first-child {
