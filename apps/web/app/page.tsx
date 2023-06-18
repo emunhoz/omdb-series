@@ -13,8 +13,6 @@ import {
 } from './services'
 
 export default function Page() {
-  const [episodeCarouselActive, setCurrentEpisodeCarouselActive] = useState(0)
-
   const { data: series } = useQuery({
     queryKey: ['hydrate-series'],
     queryFn: () => getSeries(),
@@ -31,6 +29,8 @@ export default function Page() {
     (episodeNumber) => episodeNumber.Episode
   )
 
+  const [episodeCarouselActive, setCurrentEpisodeCarouselActive] = useState(1)
+
   const { data: episodeDetailsData, isLoading: isLoadingEpisodes } = useQuery({
     queryKey: ['hydrate-episode-details'],
     queryFn: () => fetchEpisodeDetails(sessionEpisodes),
@@ -39,11 +39,10 @@ export default function Page() {
   })
 
   const episodeDetailsContentData =
-    episodeDetailsData?.length && episodeDetailsData[episodeCarouselActive]
-
-  // const findIndexCurrentEpisode = episodeDetailsData?.findIndex(
-  //   (episode) => episode.Episode === String(episodeCarouselActive)
-  // )
+    episodeDetailsData?.length &&
+    episodeDetailsData.filter(
+      (episode) => episode.Episode === String(episodeCarouselActive)
+    )[0]
 
   return (
     <main>
@@ -122,25 +121,29 @@ export default function Page() {
                     </li>
                   ))}
 
-                {episodeDetailsData?.map((item, index) => (
+                {episodeDetailsData?.map((item) => (
                   <li
                     className={
-                      episodeCarouselActive === index
+                      episodeCarouselActive === Number(item.Episode)
                         ? styles.episodeListItemActive
                         : styles.episodeListItem
                     }
                     key={item.Episode}
-                    arial-hidden={
-                      episodeCarouselActive === index ? 'false' : 'true'
+                    id={`episode-${item.Episode}`}
+                    onClick={() =>
+                      setCurrentEpisodeCarouselActive(Number(item.Episode))
                     }
-                    id={`-${index}`}
-                    onClick={() => setCurrentEpisodeCarouselActive(index)}
                   >
-                    <a href={`#-${index}`} className={styles.episodeLink}>
+                    <a
+                      href={`#episode-${item.Episode}`}
+                      className={styles.episodeLink}
+                    >
                       <EpisodeCard
                         episodeTitle={item.Title}
                         episodeNumber={item.Episode}
-                        isActive={episodeCarouselActive === index}
+                        isActive={
+                          episodeCarouselActive === Number(item.Episode)
+                        }
                         imgUrl={item.Poster}
                         description={item.Plot}
                       />
@@ -148,52 +151,54 @@ export default function Page() {
                   </li>
                 ))}
               </ul>
-              {/* <nav className={styles.arrowsNavigation}>
-              <button
-                className={styles.arrowsNavigationButton}
-                disabled={findIndexCurrentEpisode <= 0}
-              >
-                <a
-                  href={
-                    findIndexCurrentEpisode === 0
-                      ? `#-${findIndexCurrentEpisode - 1}`
-                      : `#-${findIndexCurrentEpisode}`
-                  }
-                  onClick={() =>
-                    setCurrentEpisodeCarouselActive(episodeCarouselActive - 1)
-                  }
-                >
-                  <Image
-                    src="/icons/tail-left.svg"
-                    alt={`Tail left`}
-                    width={29}
-                    height={19}
-                  />
-                </a>
-              </button>
-              <button
-                className={styles.arrowsNavigationButton}
-                disabled={
-                  episodeCarouselActive === episodeDetailsData?.length - 1
-                }
-              >
-                <a
-                  href={`#-${findIndexCurrentEpisode + 1}`}
-                  onClick={() =>
-                    setCurrentEpisodeCarouselActive(episodeCarouselActive + 1)
-                  }
-                >
-                  <Image
-                    src="/icons/tail-right.svg"
-                    alt={`Tail right`}
-                    width={29}
-                    height={19}
-                  />
-                </a>
-              </button>
-            </nav> */}
             </div>
           </div>
+
+          <nav className={styles.arrowsNavigation}>
+            <button
+              className={styles.arrowsNavigationButton}
+              disabled={
+                episodeCarouselActive <=
+                Number(sessionEpisodes && sessionEpisodes[0])
+              }
+              onClick={() =>
+                setCurrentEpisodeCarouselActive(
+                  Number(episodeCarouselActive) - 1
+                )
+              }
+            >
+              <a href={`#episode-${episodeCarouselActive}`}>
+                <Image
+                  src="/icons/tail-left.svg"
+                  alt={`Tail left`}
+                  width={29}
+                  height={19}
+                />
+              </a>
+            </button>
+            <button
+              className={styles.arrowsNavigationButton}
+              disabled={
+                episodeCarouselActive >=
+                Number(sessionEpisodes && sessionEpisodes.at(-1))
+              }
+              onClick={() =>
+                setCurrentEpisodeCarouselActive(
+                  Number(episodeCarouselActive) + 1
+                )
+              }
+            >
+              <a href={`#episode-${episodeCarouselActive}`}>
+                <Image
+                  src="/icons/tail-right.svg"
+                  alt={`Tail right`}
+                  width={29}
+                  height={19}
+                />
+              </a>
+            </button>
+          </nav>
+
           {series && (
             <Image
               className={styles.poster}
