@@ -40,7 +40,7 @@ export default function Page() {
     })),
   })
 
-  const episodeDetailsContentData =
+  const episodeDetailsContentData: any =
     episodes?.length &&
     episodes.find(
       (episode: any) =>
