@@ -3,7 +3,14 @@
   "private": true,
   "version": "0.5.0",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "./dist/ui.umd.cjs",
+  "module": "./dist/ui.js",
+  "exports": {
+    ".": {
+      "import": "./dist/ui.js",
+      "require": "./dist/ui.umd.cjs"
+    }
+  },
   "scripts": {
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
