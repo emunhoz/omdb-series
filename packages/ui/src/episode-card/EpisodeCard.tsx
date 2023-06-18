@@ -19,8 +19,8 @@ export function EpisodeCard({
 }: EpisodeCardProps) {
   return (
     <div className={styles.episodeWrapper}>
-      {imgUrl.length === 0 && placeholder}
-      {imgUrl.length !== 0 && (
+      {imgUrl?.length === 0 && placeholder}
+      {imgUrl?.length !== 0 && (
         <>
           <div className={styles.episodeNumber}>{episodeNumber}</div>
           <img
