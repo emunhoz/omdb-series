@@ -1,27 +1,27 @@
 'use client'
 
-import Image from 'next/image'
-import * as styles from './page.module.css'
-import { useState } from 'react'
-import { EpisodeCard } from 'ui'
+import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import Image from 'next/image'
 import Skeleton from 'react-loading-skeleton'
+import { EpisodeCard } from 'ui'
 import {
   getSeries,
   fetchEpisodeDetails,
   fetchEpisodiesFromSeason,
 } from './services'
+import * as styles from './page.module.css'
 
 export default function Page() {
   const { data: series } = useQuery({
     queryKey: ['hydrate-series'],
-    queryFn: () => getSeries(),
+    queryFn: getSeries,
     refetchOnWindowFocus: false,
   })
 
   const { data: season } = useQuery({
     queryKey: ['hydrate-season'],
-    queryFn: () => fetchEpisodiesFromSeason(),
+    queryFn: fetchEpisodiesFromSeason,
     refetchOnWindowFocus: false,
   })
 
@@ -40,9 +40,9 @@ export default function Page() {
 
   const episodeDetailsContentData =
     episodeDetailsData?.length &&
-    episodeDetailsData.filter(
+    episodeDetailsData.find(
       (episode) => episode.Episode === String(episodeCarouselActive)
-    )[0]
+    )
 
   return (
     <main>
@@ -80,15 +80,15 @@ export default function Page() {
             </p>
           </div>
           <div aria-labelledby="carouselheading" className={styles.pageSection}>
-            <h3 id="carouselheading" hidden aria-hidden>
+            <h3 id="carouselheading" hidden>
               Episodes
             </h3>
 
             <div className={styles.carousel}>
               <ul className={styles.carouselWrapper}>
                 {isLoadingEpisodes &&
-                  Array.from({ length: 5 }).map(() => (
-                    <li className={styles.episodeListItem}>
+                  Array.from({ length: 5 }).map((_, index) => (
+                    <li className={styles.episodeListItem} key={index}>
                       <a className={styles.episodeLink}>
                         <EpisodeCard
                           episodeTitle={
@@ -170,7 +170,7 @@ export default function Page() {
               <a href={`#episode-${episodeCarouselActive}`}>
                 <Image
                   src="/icons/tail-left.svg"
-                  alt={`Tail left`}
+                  alt="Tail left"
                   width={44}
                   height={44}
                 />
@@ -191,7 +191,7 @@ export default function Page() {
               <a href={`#episode-${episodeCarouselActive}`}>
                 <Image
                   src="/icons/tail-right.svg"
-                  alt={`Tail right`}
+                  alt="Tail right"
                   width={44}
                   height={44}
                 />
@@ -203,7 +203,7 @@ export default function Page() {
             <Image
               className={styles.poster}
               src={series?.Poster}
-              alt={`Poster`}
+              alt="Poster"
               width={100}
               height={100}
               placeholder="blur"
@@ -219,7 +219,7 @@ export default function Page() {
           <Image
             className={styles.episodeDetailsPoster}
             src={episodeDetailsContentData?.Poster}
-            alt={`Poster`}
+            alt="Poster"
             width={100}
             height={100}
             loading="eager"
@@ -249,15 +249,13 @@ export default function Page() {
                 height={24}
               />
             </div>
-            {episodeDetailsContentData?.imdbRating === 'N/A' && (
+            {episodeDetailsContentData?.imdbRating === 'N/A' ? (
               <div>
                 <strong className={styles.ratingClassification}>
                   {episodeDetailsContentData?.imdbRating}
                 </strong>
               </div>
-            )}
-
-            {episodeDetailsContentData?.imdbRating !== 'N/A' && (
+            ) : (
               <div>
                 <strong className={styles.ratingClassification}>
                   {episodeDetailsContentData?.imdbRating}
@@ -291,7 +289,7 @@ export default function Page() {
           <dl className={styles.episodeDetailsContentList}>
             <dt className={styles.episodeDetailsContentListTitle}>Genre</dt>
             {episodeDetailsContentData?.Genre?.split(',').map((actor) => (
-              <dd>{actor}</dd>
+              <dd key={actor}>{actor}</dd>
             )) || (
               <Skeleton
                 baseColor="#e0e0e0"
@@ -305,7 +303,7 @@ export default function Page() {
           <dl className={styles.episodeDetailsContentList}>
             <dt className={styles.episodeDetailsContentListTitle}>Actors</dt>
             {episodeDetailsContentData?.Actors?.split(',').map((actor) => (
-              <dd>{actor}</dd>
+              <dd key={actor}>{actor}</dd>
             )) || (
               <Skeleton
                 baseColor="#e0e0e0"
