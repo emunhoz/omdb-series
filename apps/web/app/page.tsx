@@ -171,8 +171,8 @@ export default function Page() {
                 <Image
                   src="/icons/tail-left.svg"
                   alt={`Tail left`}
-                  width={29}
-                  height={19}
+                  width={44}
+                  height={44}
                 />
               </a>
             </button>
@@ -192,8 +192,8 @@ export default function Page() {
                 <Image
                   src="/icons/tail-right.svg"
                   alt={`Tail right`}
-                  width={29}
-                  height={19}
+                  width={44}
+                  height={44}
                 />
               </a>
             </button>
