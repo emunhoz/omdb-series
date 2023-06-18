@@ -208,6 +208,7 @@ export default function Page() {
               height={100}
               placeholder="blur"
               blurDataURL="/images/poster.png"
+              loading="lazy"
             />
           )}
         </div>
@@ -221,6 +222,7 @@ export default function Page() {
             alt={`Poster`}
             width={100}
             height={100}
+            loading="lazy"
           />
         )) || (
           <Skeleton baseColor="#e0e0e0" highlightColor="#f0f0f0" height={536} />
