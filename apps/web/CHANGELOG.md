@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/emunhoz/omdb-series/compare/web@0.7.9...web@0.8.0) (2023-06-18)
+
+
+### Features
+
+* **apps/web:** lazy loading images ([d790257](https://github.com/emunhoz/omdb-series/commit/d790257822474d34bc9beb4834159117e2ccdbb5))
+
+
+
+
+
 ## [0.7.9](https://github.com/emunhoz/omdb-series/compare/web@0.7.8...web@0.7.9) (2023-06-18)
 
 **Note:** Version bump only for package web
