@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.7](https://github.com/emunhoz/omdb-series/compare/web@0.9.6...web@0.9.7) (2023-06-18)
+
+**Note:** Version bump only for package web
+
+
+
+
+
 ## [0.9.6](https://github.com/emunhoz/omdb-series/compare/web@0.9.5...web@0.9.6) (2023-06-18)
 
 **Note:** Version bump only for package web
