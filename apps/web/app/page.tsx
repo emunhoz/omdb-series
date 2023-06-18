@@ -44,6 +44,8 @@ export default function Page() {
       (episode) => episode.Episode === String(episodeCarouselActive)
     )[0]
 
+  console.log(episodeDetailsContentData, 'episodeDetailsContentData')
+
   return (
     <main>
       <section className={styles.mainSection}>
@@ -283,6 +285,23 @@ export default function Page() {
               />
             )}
           </p>
+
+          <ul className={styles.episodeDetailsContentList}>
+            <h3 className={styles.episodeDetailsContentListTitle}>Genre</h3>
+            {episodeDetailsContentData?.Genre?.split(',').map((actor) => (
+              <li>{actor}</li>
+            ))}
+          </ul>
+
+          <ul className={styles.episodeDetailsContentList}>
+            <h3 className={styles.episodeDetailsContentListTitle}>Actors</h3>
+            {episodeDetailsContentData?.Actors?.split(',').map((actor) => (
+              <li>{actor}</li>
+            ))}
+          </ul>
+
+          <div>Director: {episodeDetailsContentData?.Director}</div>
+          <small>Writer: {episodeDetailsContentData?.Writer}</small>
         </div>
       </section>
     </main>
