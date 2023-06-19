@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useQueries, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Skeleton from 'react-loading-skeleton'
 import { EpisodeCard } from 'ui'
@@ -9,10 +9,8 @@ import {
   getSeries,
   fetchEpisodeDetails,
   fetchEpisodiesFromSeason,
-  fetchEpisodeByNumber,
 } from './services'
 import * as styles from './page.module.css'
-import { fullUrl, seasonNumber } from './const'
 
 export default function Page() {
   const [episodeCarouselActive, setCurrentEpisodeCarouselActive] = useState(1)

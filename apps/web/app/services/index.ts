@@ -21,10 +21,3 @@ export async function fetchEpisodeDetails(session: string[]) {
     })
   )
 }
-
-export async function fetchEpisodeByNumber(episode: string) {
-  const url = `${fullUrl}&Season=${seasonNumber}&Episode=${episode}`
-
-  const resp = await fetch(url)
-  return resp.json()
-}
