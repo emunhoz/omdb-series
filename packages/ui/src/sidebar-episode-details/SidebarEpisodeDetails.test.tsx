@@ -20,8 +20,6 @@ describe('[Component]: SidebarEpisodeDetails', () => {
       />
     )
 
-    screen.logTestingPlaygroundURL()
-
     expect(
       screen.getByRole('img', {
         name: /poster/i,
