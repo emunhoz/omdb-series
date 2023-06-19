@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Skeleton from 'react-loading-skeleton'
-import { EpisodeCard } from 'ui'
+import { EpisodeCard, Heading } from 'ui'
 import {
   getSeries,
   fetchEpisodeDetails,
@@ -48,37 +48,35 @@ export default function Page() {
     <main>
       <section className={styles.mainSection}>
         <div className={styles.mainSectionContainer}>
-          <div className={styles.mainSectionWrapper}>
-            <small className={styles.seasonNumber}>
-              {season?.Season ? (
-                `Season ${season.Season}`
-              ) : (
+          <Heading
+            seasonNumber={
+              (season?.Season && `Season ${season.Season}`) || (
                 <Skeleton
                   baseColor="#25282a"
                   highlightColor="#383838"
                   width={100}
                 />
-              )}
-            </small>
-            <h1 className={styles.seriesName}>
-              {series?.Title || (
+              )
+            }
+            title={
+              series?.Title || (
                 <Skeleton
                   baseColor="#25282a"
                   highlightColor="#383838"
                   width={400}
                 />
-              )}
-            </h1>
-            <p className={styles.seriesDescription}>
-              {series?.Plot || (
+              )
+            }
+            description={
+              series?.Plot || (
                 <Skeleton
                   count={3}
                   baseColor="#25282a"
                   highlightColor="#383838"
                 />
-              )}
-            </p>
-          </div>
+              )
+            }
+          />
           <div aria-labelledby="carouselheading" className={styles.pageSection}>
             <h3 id="carouselheading" hidden>
               Episodes

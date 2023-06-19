@@ -27,15 +27,6 @@
     display: flex;
     justify-content: flex-end;
   }
-
-  .mainSectionWrapper {
-    max-width: 580px;
-    padding-left: 30px;
-  }
-}
-
-.mainSectionWrapper {
-  margin-bottom: 122px;
 }
 
 .poster {
@@ -51,21 +42,6 @@
   mix-blend-mode: normal;
   opacity: 0.2;
   filter: brightness(0.5);
-}
-
-.seasonNumber {
-  font-size: var(--font-size-large);
-  display: block;
-}
-
-.seriesName {
-  font-family: 'HelveticaNeueBd';
-  font-size: var(--font-size-extra-large);
-  line-height: normal;
-}
-
-.seriesDescription {
-  font-size: var(--font-size-large);
 }
 
 .episodeListItem {
