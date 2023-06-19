@@ -1,0 +1,25 @@
+@media screen and (min-width: 1200px) {
+  .mainSectionWrapper {
+    max-width: 580px;
+    padding-left: 30px;
+  }
+}
+
+.mainSectionWrapper {
+  margin-bottom: 122px;
+}
+
+.seasonNumber {
+  font-size: var(--font-size-large);
+  display: block;
+}
+
+.seriesName {
+  font-family: 'HelveticaNeueBd';
+  font-size: var(--font-size-extra-large);
+  line-height: normal;
+}
+
+.seriesDescription {
+  font-size: var(--font-size-large);
+}
