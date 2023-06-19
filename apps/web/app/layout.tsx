@@ -1,5 +1,4 @@
 import { Providers } from '@/providers/react-query/query-client-provider'
-import 'react-loading-skeleton/dist/skeleton.css'
 import '../styles/global.css'
 
 export const metadata = {

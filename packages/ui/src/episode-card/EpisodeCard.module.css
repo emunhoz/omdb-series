@@ -77,3 +77,13 @@
   overflow: hidden;
   display: -webkit-box;
 }
+
+.episodeListItem {
+  transition: all ease .3s;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  margin-right: 24px;
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content;
+}

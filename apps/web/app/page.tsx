@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
-import Skeleton from 'react-loading-skeleton'
-import { EpisodeCard, Heading } from 'ui'
+import {
+  EpisodeCard,
+  EpisodeCardSkeleton,
+  Heading,
+  SidebarEpisodeDetails,
+} from 'ui'
 import {
   getSeries,
   fetchEpisodeDetails,
@@ -31,7 +35,7 @@ export default function Page() {
     (episodeNumber) => episodeNumber.Episode
   )
 
-  const { data: episodeDetailsData, isLoading: isLoadingEpisodes } = useQuery({
+  const { data: episodeDetailsData } = useQuery({
     queryKey: ['hydrate-episode-details'],
     queryFn: () => fetchEpisodeDetails(sessionEpisodes),
     refetchOnWindowFocus: false,
@@ -49,33 +53,9 @@ export default function Page() {
       <section className={styles.mainSection}>
         <div className={styles.mainSectionContainer}>
           <Heading
-            seasonNumber={
-              (season?.Season && `Season ${season.Season}`) || (
-                <Skeleton
-                  baseColor="#25282a"
-                  highlightColor="#383838"
-                  width={100}
-                />
-              )
-            }
-            title={
-              series?.Title || (
-                <Skeleton
-                  baseColor="#25282a"
-                  highlightColor="#383838"
-                  width={400}
-                />
-              )
-            }
-            description={
-              series?.Plot || (
-                <Skeleton
-                  count={3}
-                  baseColor="#25282a"
-                  highlightColor="#383838"
-                />
-              )
-            }
+            seasonNumber={season?.Season && `Season ${season.Season}`}
+            title={series?.Title}
+            description={series?.Plot}
           />
           <div aria-labelledby="carouselheading" className={styles.pageSection}>
             <h3 id="carouselheading" hidden>
@@ -84,41 +64,6 @@ export default function Page() {
 
             <div className={styles.carousel}>
               <ul className={styles.carouselWrapper}>
-                {isLoadingEpisodes &&
-                  Array.from({ length: 5 }).map((_, index) => (
-                    <li className={styles.episodeListItem} key={index}>
-                      <a className={styles.episodeLink}>
-                        <EpisodeCard
-                          episodeTitle={
-                            <Skeleton
-                              width={100}
-                              baseColor="#25282a"
-                              highlightColor="#383838"
-                            />
-                          }
-                          episodeNumber={0}
-                          isActive={false}
-                          placeholder={
-                            <Skeleton
-                              width={300}
-                              height={134}
-                              baseColor="#25282a"
-                              highlightColor="#383838"
-                            />
-                          }
-                          imgUrl={''}
-                          description={
-                            <Skeleton
-                              count={3}
-                              baseColor="#25282a"
-                              highlightColor="#383838"
-                            />
-                          }
-                        />
-                      </a>
-                    </li>
-                  ))}
-
                 {episodeDetailsData?.map((item) => (
                   <li
                     className={
@@ -147,7 +92,7 @@ export default function Page() {
                       />
                     </a>
                   </li>
-                ))}
+                )) || <EpisodeCardSkeleton count={3} />}
               </ul>
             </div>
           </div>
@@ -212,133 +157,9 @@ export default function Page() {
         </div>
       </section>
 
-      <section className={styles.episodeDetails}>
-        {(episodeDetailsContentData && (
-          <Image
-            className={styles.episodeDetailsPoster}
-            src={episodeDetailsContentData?.Poster}
-            alt="Poster"
-            width={100}
-            height={100}
-            loading="eager"
-          />
-        )) || (
-          <Skeleton baseColor="#e0e0e0" highlightColor="#f0f0f0" height={536} />
-        )}
-        <div className={styles.episodeDetailsHeader}>
-          <div className={styles.episodeDetailsHeaderTitle}>
-            {episodeDetailsContentData?.Episode ? (
-              `Episode ${episodeDetailsContentData?.Episode} - ${episodeDetailsContentData?.Released}`
-            ) : (
-              <Skeleton
-                baseColor="#e0e0e0"
-                highlightColor="#f0f0f0"
-                width={192}
-              />
-            )}
-          </div>
-          <div className={styles.rating}>
-            <div>
-              <Image
-                className={styles.ratingStarIcon}
-                src="/icons/start-icon.svg"
-                alt="Star icon"
-                width={24}
-                height={24}
-              />
-            </div>
-            {episodeDetailsContentData?.imdbRating === 'N/A' ? (
-              <div>
-                <strong className={styles.ratingClassification}>
-                  {episodeDetailsContentData?.imdbRating}
-                </strong>
-              </div>
-            ) : (
-              <div>
-                <strong className={styles.ratingClassification}>
-                  {episodeDetailsContentData?.imdbRating}
-                </strong>
-                /10
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={styles.episodeDetailsContent}>
-          <h3 className={styles.episodeDetailsContentTitle}>
-            {episodeDetailsContentData?.Title || (
-              <Skeleton
-                baseColor="#e0e0e0"
-                highlightColor="#f0f0f0"
-                width={150}
-                height={36}
-              />
-            )}
-          </h3>
-          <p className={styles.episodeDetailsContentDescription}>
-            {episodeDetailsContentData?.Plot || (
-              <Skeleton
-                baseColor="#e0e0e0"
-                highlightColor="#f0f0f0"
-                count={4}
-              />
-            )}
-          </p>
-
-          <dl className={styles.episodeDetailsContentList}>
-            <dt className={styles.episodeDetailsContentListTitle}>Genre</dt>
-            {episodeDetailsContentData?.Genre?.split(',').map((actor) => (
-              <dd key={actor}>{actor}</dd>
-            )) || (
-              <Skeleton
-                baseColor="#e0e0e0"
-                highlightColor="#f0f0f0"
-                width={80}
-                count={3}
-              />
-            )}
-          </dl>
-
-          <dl className={styles.episodeDetailsContentList}>
-            <dt className={styles.episodeDetailsContentListTitle}>Actors</dt>
-            {episodeDetailsContentData?.Actors?.split(',').map((actor) => (
-              <dd key={actor}>{actor}</dd>
-            )) || (
-              <Skeleton
-                baseColor="#e0e0e0"
-                highlightColor="#f0f0f0"
-                count={3}
-                width={100}
-              />
-            )}
-          </dl>
-
-          <div className={styles.episodeDetailsContentList}>
-            <h3 className={styles.episodeDetailsContentListTitle}>Director</h3>
-            <div>
-              {episodeDetailsContentData?.Director || (
-                <Skeleton
-                  baseColor="#e0e0e0"
-                  width={100}
-                  highlightColor="#f0f0f0"
-                />
-              )}
-            </div>
-          </div>
-
-          <div className={styles.episodeDetailsContentList}>
-            <h3 className={styles.episodeDetailsContentListTitle}>Writer</h3>
-            <div>
-              {episodeDetailsContentData?.Writer || (
-                <Skeleton
-                  baseColor="#e0e0e0"
-                  width={150}
-                  highlightColor="#f0f0f0"
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <SidebarEpisodeDetails
+        episodeDetailsContentData={episodeDetailsContentData}
+      />
     </main>
   )
 }

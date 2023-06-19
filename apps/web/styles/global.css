@@ -62,6 +62,10 @@ body {
   --font-size-large: 24px;
   --font-size-extra-large: 74px;
   --min-media-querie: 1024px;
+  --loading-base-color: #e0e0e0;
+  --loading-highlight-color: #f0f0f0;
+  --loading-base-color-dark: #25282a;
+  --loading-highlight-color-dark: #383838;
   
   line-height: 1.5;
   font-weight: 400;
