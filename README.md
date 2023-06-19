@@ -2,10 +2,10 @@
 
 ## 🗂 Monorepo structure
 
-| Package                                               | Description                                                                            |
-| ----------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [`web`](./apps/web)                                   | Front end application created with NextJS                                              |
-| [`ui`](./packages/ui)                                 | React components with [stories](https://storybook.js.org/)                             |
+| Package               | Description                                                |
+| --------------------- | ---------------------------------------------------------- |
+| [`web`](./apps/web)   | Front end application created with NextJS                  |
+| [`ui`](./packages/ui) | React components with [stories](https://storybook.js.org/) |
 
 ## 💥 Features
 
@@ -15,6 +15,7 @@
 - Details about the episodes
 
 ## ⚒️ Stack
+
 - Lerna with NPM monorepo
 - NextJS
 - React-query
@@ -30,9 +31,9 @@
 
 ## Demo
 
-![Mobile](.github/demo/mobile-demo.mp4)
+![Mobile](.github/demo/mobile-demo.gif)
 
-![Desktop](.github/demo/desktop-demo.mp4)
+![Desktop](.github/demo/desktop-demo.gif)
 
 ## ⚠️ Requirements
 
