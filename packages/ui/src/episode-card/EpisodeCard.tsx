@@ -22,7 +22,9 @@ export function EpisodeCard({
       {imgUrl?.length === 0 && placeholder}
       {imgUrl?.length !== 0 && (
         <>
-          <div className={styles.episodeNumber}>{episodeNumber}</div>
+          <div className={styles.episodeNumber} data-testid={episodeNumber}>
+            {episodeNumber}
+          </div>
           <img
             loading="lazy"
             className={
