@@ -38,7 +38,7 @@
 ## ⚠️ Requirements
 
 - Node >= `v18.12.1`
-- PNPM >= `8.19.2`
+- NPM >= `8.19.2`
 
 Create an `.env` file in [`web`](./apps/web):
 
@@ -80,7 +80,7 @@ E2E tests: Go to [`web`](./apps/web) and then run the following command:
 1. Running the project
 
 ```bash
-  npm dev
+  npm run dev
 ```
 
 2. Start Cypress
